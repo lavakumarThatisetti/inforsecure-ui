@@ -33,6 +33,16 @@
               </div>
               <form @submit.prevent="Register" class="signin-form">
                 <div class="form-group mb-3">
+                  <label class="label" for="name">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="username"
+                    v-model="username"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
                   <label class="label" for="name">Email</label>
                   <input
                     type="email"
@@ -94,8 +104,12 @@
 <script>
 import {ref} from 'vue';
 import {firebase} from "../firebase/firebaseInit.js"
+import {useStore} from 'vuex';
 export default {
     setup(){
+        const store = useStore(); 
+        // const userData = computed(()=>store.stae.userData)
+        const username = ref("");
         const email = ref("");
         const password = ref("");
         const cpassword = ref("")
@@ -107,13 +121,21 @@ export default {
           eye.value =  eye.value == 'fa fa-eye' ? "fa fa-eye-slash":'fa fa-eye';
           passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password"
         };
+        
         const Register =()=>{
           if(cpassword.value === password.value){
             passwordCheck.value = true;
             firebase
             .auth()
             .createUserWithEmailAndPassword(email.value,password.value)
-            .then(data => console.log(data))
+            .then(data => {
+              console.log("data",data);
+              store.dispatch('addUser',
+                  { 
+                    "userName":username.value,
+                    "email": data.user.email
+                  });
+            })
             .catch(err => alert(err.message));
           }else{
               passwordCheck.value = false  
@@ -121,6 +143,7 @@ export default {
           
         }
         return{
+            username,
             email,
             password,
             cpassword,

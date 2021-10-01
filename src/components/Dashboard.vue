@@ -23,7 +23,7 @@ export default {
        name.value  = user.email.split("@")[0];
      }else{
        // Need to route to login page
-       console.lof("error"+user)
+       console.log("dashboard error "+user)
      }
    });
    return {
