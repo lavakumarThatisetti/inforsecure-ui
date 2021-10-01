@@ -1,7 +1,7 @@
 <template>
   <SideNavBar/>
   <div class="home">
-    <h1>Welcome User {{name}}</h1>
+    <h4>Welcome User {{name}}</h4>
   </div>
   <router-view/>
 </template>

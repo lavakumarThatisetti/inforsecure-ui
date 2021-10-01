@@ -84,7 +84,6 @@ router.beforeEach(async (to, from, next)=>{
         const user = await firebase.auth().currentUser;
         console.log(user.email);
         await store.dispatch('setUser', user.email)
-        console.log(to, from)
         next()
     }else{
         next()

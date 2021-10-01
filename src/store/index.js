@@ -17,8 +17,8 @@ export default createStore({
       }
   },
   mutations: {
-        ADD_USER: (state,payload) => (state.userData = payload),
-        SET_USER: (state,payload) => (state.userData = payload),
+        ADD_USER: (state,payload) => state.userData = payload,
+        SET_USER: (state,payload) => state.userData = payload,
         GET_USER: (state,payload) => state.userData = payload,
         UPDATE_USER: (state,payload) => state.userData = payload,
   },
@@ -31,7 +31,8 @@ export default createStore({
         commit('ADD_USER', response.data);
       });
     },
-    async updateUser({ commit }, userId, user) {
+    async updateUser({ commit }, { userId, user}) {
+      console.log(JSON.stringify(user));
       const response = await User.updateUser(userId, user);
       console.log(response.data);
       commit('UPDATE_USER', response.data);
