@@ -1,0 +1,17 @@
+<template>
+    <div>
+        Stats
+    </div>
+</template>
+
+<script>
+
+export default{
+    name: 'Stats'
+}
+
+</script>
+
+<style lang="css" scoped>
+
+</style>
