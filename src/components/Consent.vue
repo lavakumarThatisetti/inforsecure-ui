@@ -208,7 +208,8 @@
                 <div class="row justify-content-center">
                   <div class="col-7 text-center">
                     <h5 class="purple-text text-center">
-                      You Have Successfully Signed Up
+                      Consent Request Sucessfull
+                      we are redirecting to {{url}}
                     </h5>
                   </div>
                 </div>
@@ -233,6 +234,7 @@ export default {
   setup() {
     const store = useStore();
     const userData = computed(() => store.state.userData);
+    const consentRespData = computed(()=>store.getters.getConsentResponse)
     const phoneNo = ref(userData.value.phoneNo);
     const fiDateRangeFrom = ref(null);
     const fiDateRangeto = ref(null);
@@ -250,6 +252,7 @@ export default {
     const frequencyUnit = ref(1);
     const filterData = ref(">=");
     const filterAmount = ref("10");
+    const url = ref(null);
     onMounted(() => {
       $(document).ready(function () {
         var current_fs, next_fs, previous_fs; //fieldsets
@@ -328,9 +331,9 @@ export default {
           $(".progress-bar").css("width", percent + "%");
         }
       });
-      $(function () {
-        $("[rel='tooltip']").tooltip();
-      });
+    //   $(function () {
+    //     $("[rel='tooltip']").tooltip();
+    //   });
     }),
     onBeforeMount(() => {
         if (userData == null) {
@@ -412,8 +415,14 @@ export default {
             }
         ]
       };
-    //   const status = store.dispatch("saveConsent", consentReqData);
+      const status = store.dispatch("saveConsent", consentReqData);
+      url.value = consentRespData.value['url']
       console.log(consentReqData);
+      console.log(status);
+      if(consentRespData.value!=null) {
+          window.open(url.value, '_blank');
+      }
+      console.log(consentRespData.value)
     };
     return {
       sendConsent,
@@ -435,7 +444,8 @@ export default {
       frequency,
       frequencyUnit,
       filterData,
-      filterAmount
+      filterAmount,
+      url
     };
   },
 };
@@ -578,12 +588,12 @@ export default {
 
 #progressbar #account:before {
   font-family: "Font Awesome 5 free";
-  content: "\f058";
+  content: "\f007";
 }
 
 #progressbar #personal:before {
   font-family: "Font Awesome 5 free";
-  content: "\f007";
+  content: "\f059";
 }
 
 #progressbar #payment:before {

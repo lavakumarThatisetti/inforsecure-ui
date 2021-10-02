@@ -10,8 +10,8 @@ export default createStore({
     userData: {},
     consentData:{},
     consentResp:{},
-    transactions: []
-
+    fiData: [],
+    allFiData :[]
   },
   plugins: [createPersistedState()],
   getters:{
@@ -23,6 +23,12 @@ export default createStore({
       },
       getConsentResponse(state){
         return state.consentResp;
+      },
+      getFiData(state) {
+        return state.fiData;
+      },
+      getAllFis(state){
+        return state.allFiData;
       }
   },
   mutations: {
@@ -33,6 +39,9 @@ export default createStore({
         // CONSENT DATA
         ADD_CONSENT: (state,payload) => state.consentData = payload,
         ADD_CONSENT_RESP: (state,payload) => state.consentResp = payload,
+        // FI DATA
+        SET_FIDATA: (state,payload) => state.fiData= payload,
+        SET_ALL_FIDATA: (state,payload) => state.allFiData.push(payload)
   },
   actions: {
     // USER DATA ACTIVITY
@@ -75,6 +84,16 @@ export default createStore({
        return response.status;
      });
    },
+
+    // FETCH FI DATA
+    async getFiData({commit},{consentId, fromDate, toDate }){
+      await Consent.getFiData(consentId,fromDate,toDate)
+      .then((response) =>{
+        console.log(response.data);
+        commit('SET_FIDATA', response.data);
+        commit('SET_ALL_FIDATA', response.data);
+      })
+    }
 
   },
   modules: {

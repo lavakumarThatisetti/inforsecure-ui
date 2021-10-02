@@ -20,8 +20,15 @@
                         @click="active = 'consent'"
                         :class="{active:active === 'consent'}" 
                         class="nav_link" to="/consent"> 
-                        <i class='fa fa-check-circle nav_icon'></i> 
+                        <i class="fas fa-fingerprint nav_icon"></i>
                         <span class="nav_name">Consent </span> 
+                    </router-link>
+                     <router-link 
+                        @click="active = 'fetchData'"
+                        :class="{active:active === 'fetchData'}" 
+                        class="nav_link" to="/fetchData"> 
+                        <i class='fa fa-check-circle nav_icon'></i> 
+                        <span class="nav_name">fetch Data</span> 
                     </router-link>
                      <router-link 
                          @click="active = 'transactions'"

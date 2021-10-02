@@ -50,6 +50,11 @@ const routes = [
         component: () => import ('../components/Consent.vue')
       },
       {
+        path:'/fetchData',
+        name: 'fetchData',
+        component: () => import ('../components/FetchData.vue')
+      },
+      {
         path:'/personlization',
         name: 'Personlization',
         component: () => import ('../components/Personlization.vue')
