@@ -14,12 +14,12 @@
         <div class="card px-0 pt-4 pb-0 mt-3 mb-3 shadow-sm p-3 mb-5 bg-white rounded">
           <h2 id="heading">Provide</h2>
           <p>Fill all form field to go to next step</p>
-          <form id="msform">
+          <form id="msform" @submit.prevent="sendConsent">
             <!-- progressbar -->
             <ul id="progressbar">
               <li class="active" id="account"><strong>Account</strong></li>
-              <li id="personal"><strong>Personal</strong></li>
-              <li id="payment"><strong>Image</strong></li>
+              <li id="personal"><strong>Financial</strong></li>
+              <li id="payment"><strong>Volume</strong></li>
               <li id="confirm"><strong>Finish</strong></li>
             </ul>
             <div class="progress">
@@ -70,7 +70,7 @@
               <div class="form-group form-card">
                 <div class="row">
                   <div class="col-7">
-                    <h2 class="fs-title">Financial Request Information </h2>
+                    <h2 class="fs-title">Financial Information </h2>
                   </div>
                   <div class="col-5">
                     <h2 class="steps">Step 2 - 4</h2>
@@ -137,29 +137,49 @@
               <div class="form-card">
                 <div class="row">
                   <div class="col-7">
-                    <h2 class="fs-title">Image Upload:</h2>
+                    <h2 class="fs-title">Volume and Validity</h2>
                   </div>
                   <div class="col-5">
                     <h2 class="steps">Step 3 - 4</h2>
                   </div>
                 </div>
-                <label class="fieldlabels">Upload Your Photo:</label>
-                <input type="file" name="pic" accept="image/*" />
-                <label class="fieldlabels">Upload Signature Photo:</label>
-                <input type="file" name="pic" accept="image/*" />
+                <div class="box">
+                    <label class="fieldlabels" for="datalife">Data life <i class="fas fa-info-circle red-tooltip" data-toggle="tooltip" data-placement="top" title="This is the time period for which you are allowed to store the data"></i></label>
+                    <div class="row">
+                        <select v-model="dataLife" class="select  mb-3 col-md-6" id="fetchType">
+                            <option selected value="MONTH">Month</option>
+                            <option value="YEAR">Year</option>
+                            <option value="DAY">Day</option>
+                            <option value="INF">Life Time</option>
+                        </select>
+                        <input type="number" class="form-control col-md-6" style="border-radius:5px;" name="dataLifeUnit" v-model="dataLifeUnit" placeholder="Value" />
+                    </div>
+                </div>
+                <div class="box">
+                    <label class="fieldlabels" for="freqency">Frequency<i class="fas fa-info-circle red-tooltip" data-toggle="tooltip" data-placement="top" title="maximum frequency value is defined is 1 request per HOUR. So, no more than 24 requests are allowed per DAY"></i></label>
+                    <div class="row">
+                        <select v-model="frequency" class="select  mb-3 col-md-6" id="fetchType">
+                            <option selected value="HOUR">Hour</option>
+                            <option selected value="MONTH">Month</option>
+                            <option value="YEAR">Year</option>
+                            <option value="DAY">Day</option>
+                        </select>
+                        <input type="number" class="form-control col-md-6" style="border-radius:5px;"  name="frequencyUnit" v-model="frequencyUnit" placeholder="Value" />
+                    </div>
+                </div>
+                <div class="box">
+                    <label class="fieldlabels" for="fetchType">Filter Data <i class="fas fa-info-circle red-tooltip" data-toggle="tooltip" data-placement="top" title="Allows you to specify conditions for filtering the data being fetched. For example, fetch transactions where the TRANSACTIONAMOUNT is greater than or equal to INR 20,000"></i></label>
+                    <div class="row">
+                        <select v-model="filterData" class="select mb-3 col-md-6"  id="fetchType">
+                            <option selected value=">=">Greater</option>
+                            <option value="<=">Lesser</option>
+                        </select>
+                        <input type="number" class="form-control col-md-6" style="border-radius:5px;" name="filterAmount" v-model="filterAmount" placeholder="Amount" />
+                    </div>
+                </div>
               </div>
-              <input
-                type="sumbit"
-                name="next"
-                class="next action-button"
-                value="Submit"
-              />
-              <input
-                type="button"
-                name="previous"
-                class="previous action-button-previous"
-                value="Previous"
-              />
+              <button type="submit" name="next" class="next action-button">Send &nbsp;<i class="fas fa-paper-plane"></i></button>
+              <button type="button" name="previous" class="previous action-button-previous"><i class="fas fa-chevron-circle-left"></i> &nbsp;Previous</button>
             </fieldset>
             <fieldset>
               <div class="form-card">
@@ -224,6 +244,12 @@ export default {
     var coMap = {};
     const fetchFiType = ref(null);
     const fetchConsentType = ref(null);
+    const dataLife = ref("MONTH");
+    const dataLifeUnit = ref(1);
+    const frequency = ref("MONTH");
+    const frequencyUnit = ref(1);
+    const filterData = ref(">=");
+    const filterAmount = ref("10");
     onMounted(() => {
       $(document).ready(function () {
         var current_fs, next_fs, previous_fs; //fieldsets
@@ -302,8 +328,11 @@ export default {
           $(".progress-bar").css("width", percent + "%");
         }
       });
+      $(function () {
+        $("[rel='tooltip']").tooltip();
+      });
     }),
-      onBeforeMount(() => {
+    onBeforeMount(() => {
         if (userData == null) {
           firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -340,15 +369,25 @@ export default {
          consentTypes.value.splice(consentTypes.value.indexOf(value), 1);
          delete coMap[value];
     }
+    const getDateFormat = (fiDate) =>{
+      var date = new Date(fiDate);
+      // "2021-01-11T11:39:57.153Z"
+      var strDate = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-')+"T00:00:00.000Z";
+      return strDate;
+    }
     const sendConsent = () => {
+      fiDateRangeFrom.value = getDateFormat(fiDateRangeFrom.value)
+      fiDateRangeto.value  = getDateFormat(fiDateRangeto.value)
       const consentReqData = {
-
+        consentMode: consentMode.value,  
+        fetchType: fetchType.value,
+        consentTypes: consentTypes.value, 
         fiTypes: fiTypes.value,  
         FIDataRange :{
-           from: "",
-           to: ""
+           from: fiDateRangeFrom.value,
+           to: fiDateRangeto.value
         },
-        phoneNumber: phoneNo, 
+        phoneNumber: phoneNo.value, 
         Purpose: {
           code: "101",
           refUri: "https://api.rebit.org.in/aa/purpose/101.xml",
@@ -357,9 +396,24 @@ export default {
             type: "Personal Finance",
           },
         },
+        DataLife: {
+            unit: dataLife.value,
+            value: dataLifeUnit.value
+        },
+        Frequency: {
+            unit: frequency.value,
+            value: frequencyUnit.value
+        },
+        DataFilter: [
+            {
+            type: "TRANSACTIONAMOUNT",
+            operator: filterData.value,
+            value: filterAmount.value
+            }
+        ]
       };
-      const status = store.dispatch("saveConsent", consentReqData);
-      console.log(status);
+    //   const status = store.dispatch("saveConsent", consentReqData);
+      console.log(consentReqData);
     };
     return {
       sendConsent,
@@ -375,8 +429,13 @@ export default {
       fetchConsentType,
       addConsentType,
       deleteCtype,
-      consentTypes
-
+      consentTypes,
+      dataLife,
+      dataLifeUnit,
+      frequency,
+      frequencyUnit,
+      filterData,
+      filterAmount
     };
   },
 };
@@ -627,4 +686,6 @@ export default {
     border-radius: 5px;
     padding: 12px;
 }
+.tooltip.top .tooltip-inner { background-color:red; }
+.tooltip.top .tooltip-arrow { border-top-color: red; }
 </style>
