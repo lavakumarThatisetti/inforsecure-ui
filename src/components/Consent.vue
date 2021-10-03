@@ -234,7 +234,6 @@ export default {
   setup() {
     const store = useStore();
     const userData = computed(() => store.state.userData);
-    const consentRespData = computed(()=>store.getters.getConsentResponse)
     const phoneNo = ref(userData.value.phoneNo);
     const fiDateRangeFrom = ref(null);
     const fiDateRangeto = ref(null);
@@ -415,14 +414,16 @@ export default {
             }
         ]
       };
-      const status = store.dispatch("saveConsent", consentReqData);
-      url.value = consentRespData.value['url']
-      console.log(consentReqData);
-      console.log(status);
-      if(consentRespData.value!=null) {
-          window.open(url.value, '_blank');
-      }
-      console.log(consentRespData.value)
+      store.dispatch("saveConsent", consentReqData).then(
+        response =>{
+          console.log("response from consent", response)
+          url.value = response.data['url']
+          console.log(url.value);
+          if(url.value!=null) {
+             window.location.href =url.value
+          }
+        }
+      );
     };
     return {
       sendConsent,

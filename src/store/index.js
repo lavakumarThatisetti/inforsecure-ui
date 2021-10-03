@@ -76,13 +76,13 @@ export default createStore({
     
     // CONSENT DATA ACTIVITY
     async saveConsent({ commit }, consent) {
-      commit('ADD_CONSENT', JSON.stringify(consent));
-      await Consent.postConsent(consent)
-     .then( (response) => {
-       console.log(response.data);
-       commit('ADD_CONSENT_RESP', response.data);
-       return response.status;
-     });
+      commit('ADD_CONSENT', consent);
+      return Consent.postConsent(consent)
+            .then( (response) => {
+              console.log(response.data);
+              commit('ADD_CONSENT_RESP', response.data);
+              return response;
+            });
    },
 
     // FETCH FI DATA

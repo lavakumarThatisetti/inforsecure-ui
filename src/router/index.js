@@ -87,8 +87,14 @@ router.beforeEach(async (to, from, next)=>{
     let requriesAuth = to.matched.some(record => record.meta.requiresAuth);
     if(requriesAuth && !currentUser){
         const user = await firebase.auth().currentUser;
-        console.log(user.email);
-        await store.dispatch('setUser', user.email)
+        if(user == null) {
+          var email = localStorage.getItem('email')
+          console.log(email)
+          await store.dispatch('setUser', email)
+        }else{
+          localStorage.setItem('email', user.email)
+          await store.dispatch('setUser', user.email)
+        }
         next()
     }else{
         next()
