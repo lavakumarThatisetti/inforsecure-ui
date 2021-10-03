@@ -51,7 +51,7 @@ const routes = [
       },
       {
         path:'/fetchData',
-        name: 'fetchData',
+        name: 'FetchData',
         component: () => import ('../components/FetchData.vue')
       },
       {
@@ -82,7 +82,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next)=>{
-    let currentUser = store.state.user;
+    let currentUser = store.state.userData;
     console.log(currentUser);
     let requriesAuth = to.matched.some(record => record.meta.requiresAuth);
     if(requriesAuth && !currentUser){

@@ -86,8 +86,8 @@ export default createStore({
    },
 
     // FETCH FI DATA
-    async getFiData({commit},{consentId, fromDate, toDate }){
-      return Consent.getFiData(consentId,fromDate,toDate)
+    async getFiData({commit},{userId,consentId, fromDate, toDate }){
+      return Consent.getFiData(userId,consentId,fromDate,toDate)
       .then((response) =>{
         console.log(response.data);
         commit('SET_FIDATA', response.data);

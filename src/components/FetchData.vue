@@ -2,7 +2,7 @@
     <div class="container">
         <div class="shadow-lg p-3 mb-3 bg-white rounded" v-if="showpopup">
           We got your recent consent data. Its time to know your wealth health &nbsp;
-          <i class="fas fa-times" style="color: red;" @click="showpopup=!showpopup"></i>
+          <i class="fas fa-times" style="color: red; cursor: pointer;" @click="showpopup=!showpopup"></i>
         </div>
     <form @submit.prevent="getFiData">
       <div
@@ -38,7 +38,7 @@
             name="next"
             class="btn btn-primary action-button"
           >
-            Submit &nbsp;<i class="fas fa-paper-plane"></i>
+            Send &nbsp;<i class="fas fa-paper-plane"></i>
           </button>
         </div>
       </div>
@@ -79,8 +79,6 @@ export default {
         });
       }
     });
-    consentId.value = consentRespData.value["url"].split("/")[3].split("?")[0];
-    console.log(consentId.value);
 
     const getDateFormat = (fiDate) => {
       console.log(fiDate);
@@ -90,9 +88,19 @@ export default {
         "T00:00:00.000Z";
       return strDate;
     };
+    const getConsntId = (url) =>{
+      consentId.value = url
+      if(url.includes("/")){
+        return consentRespData.value["url"].split("/")[3].split("?")[0];
+      }
+      else{
+        return url
+      }
+    }
     const getFiData = () => {
       const requestData = {
-        consentId: consentId.value,
+        userId: userData.value.id,
+        consentId: getConsntId(consentRespData.value["url"]),
         fromDate: getDateFormat(fromDate.value),
         toDate: getDateFormat(toDate.value),
       };

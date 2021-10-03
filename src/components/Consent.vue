@@ -102,25 +102,33 @@
                     <label class="fieldlabels" for="FiType">Financial Information Type</label>
                     <input v-on:keyup="addFilType" list="fis" v-model="fetchFiType" class="col-sm-12 datalist custom-select-sm">
                     <datalist id="fis">
+                        <!-- APNA Bank //-->
                         <option value="DEPOSIT">Deposit</option>
                         <option value="TERM_DEPOSIT">Term Deposit</option>
                         <option value="RECURRING_DEPOSIT">Recurring Deposit</option>
                         <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="CD">Current Deposits</option>
+                        <option value="CD">Certificates of Deposit</option>
                         <option value="IDR">Indian Depository Receipt</option>
+                        <!-- APNA Insurance //-->
                         <option value="INSURANCE_POLICIES">Insurnce Policies</option>
                         <option value="ULIP">Unit Linked Insurance Plan</option>
+                        <!-- APNA Pension //-->
                         <option value="EPF">Employees Provident Fund</option>
                         <option value="PPF">Public Provident Fund</option>
-                        <option value="BONDS">Bonds</option>
+                        <!-- APNA Investments //-->
                         <option value="MUTUAL_FUNDS">Mutual funds</option>
+                        <option value="BONDS">Bonds</option>
                         <option value="DEBENTURES">Debentures</option>
                         <option value="ETF">Exchange Traded Fund</option>
                         <option value="NPS">National Pension Scheme</option>
                         <option value="GOVT_SECURITIES">Government Securities</option>
+                        <option value="CP">Commercial Paper</option>
                         <option value="REIT">Real Estate Investment Trust</option>
                         <option value="INVIT">Infrastructure Investment Trust</option>
                         <option value="AIF">Alternative Investment Fund</option>
+                        <option value="SIP">Systematic Investment Plan</option>
+                        <option value="EQUITIES">Equity Shares</option>
+                        <option value="CIS">Collective Investment Schemes</option>
                     </datalist>
                      <div v-for="filType in fiTypes" :key="filType">
                         <div class="filtype shadow-lg p-2 mb-1 rounded">{{filType}} &nbsp;<i class="fas fa-times" @click="deleteFiType(filType)"></i></div>
@@ -226,14 +234,17 @@
 import { ref } from "vue";
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
+import { useRouter } from 'vue-router';
 import { firebase } from "../firebase/firebaseInit.js";
 import { onBeforeMount, onMounted } from "@vue/runtime-core";
 import {FI_TYPE, CONSENT_TYPE} from "../enums/aa_enums.js"
+// import router from './router'
 import $ from 'jquery';
 export default {
   name: "Consent",
   setup() {
     const store = useStore();
+    const router = useRouter();
     const userData = computed(() => store.state.userData);
     const phoneNo = ref(userData.value.phoneNo);
     const fiDateRangeFrom = ref(null);
@@ -381,7 +392,9 @@ export default {
     const sendConsent = () => {
       fiDateRangeFrom.value = getDateFormat(fiDateRangeFrom.value)
       fiDateRangeto.value  = getDateFormat(fiDateRangeto.value)
+      console.log("userData in consent",userData.value)
       const consentReqData = {
+        userId: userData.value['id'],
         consentMode: consentMode.value,  
         fetchType: fetchType.value,
         consentTypes: consentTypes.value, 
@@ -420,8 +433,10 @@ export default {
           console.log("response from consent", response)
           url.value = response.data['url']
           console.log(url.value);
-          if(url.value!=null) {
+          if(!response.data['duplicate']) {
              window.location.href =url.value
+          }else{
+              router.push({ path: '/fetchData' });
           }
         }
       );

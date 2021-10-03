@@ -1,8 +1,8 @@
 import Api from "./Api";
 
 export default {
-    getFiData(consentHandle,fromDate,toDate){
-        return Api.get(`fiu/fiData/${consentHandle}/${fromDate}/${toDate}`,
+    getFiData(userId,consentHandle,fromDate,toDate){
+        return Api.get(`fiu/fiData/${userId}/${consentHandle}/${fromDate}/${toDate}`,
         {
             headers: {
                 'Content-Type': 'application/json',
