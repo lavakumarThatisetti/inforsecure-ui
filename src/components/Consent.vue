@@ -12,8 +12,8 @@
         "
       >
         <div class="card px-0 pt-4 pb-0 mt-3 mb-3 shadow-sm p-3 mb-5 bg-white rounded">
-          <h2 id="heading">Provide</h2>
-          <p>Fill all form field to go to next step</p>
+          <h2 id="heading">Trust us leave the rest</h2>
+          <p>Minimum information Required from you</p>
           <form id="msform" @submit.prevent="sendConsent">
             <!-- progressbar -->
             <ul id="progressbar">
@@ -228,6 +228,7 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { firebase } from "../firebase/firebaseInit.js";
 import { onBeforeMount, onMounted } from "@vue/runtime-core";
+import {FI_TYPE, CONSENT_TYPE} from "../enums/aa_enums.js"
 import $ from 'jquery';
 export default {
   name: "Consent",
@@ -349,7 +350,7 @@ export default {
       });
     const addFilType =() =>{
             console.log(fiMap)
-            if(!( fetchFiType.value in fiMap)) {
+            if(!( fetchFiType.value in fiMap) && (fetchFiType.value in FI_TYPE)) {
                     fiMap[fetchFiType.value] = true;
                     fiTypes.value.push(fetchFiType.value)
             }
@@ -361,7 +362,7 @@ export default {
     }
     const addConsentType = () =>{
             console.log(coMap)
-            if(!( fetchConsentType.value in coMap)) {
+            if(!( fetchConsentType.value in coMap) && (fetchConsentType.value in CONSENT_TYPE)) {
                     coMap[fetchConsentType.value] = true;
                     consentTypes.value.push(fetchConsentType.value)
             }

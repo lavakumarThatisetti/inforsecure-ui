@@ -87,11 +87,12 @@ export default createStore({
 
     // FETCH FI DATA
     async getFiData({commit},{consentId, fromDate, toDate }){
-      await Consent.getFiData(consentId,fromDate,toDate)
+      return Consent.getFiData(consentId,fromDate,toDate)
       .then((response) =>{
         console.log(response.data);
         commit('SET_FIDATA', response.data);
         commit('SET_ALL_FIDATA', response.data);
+        return response;
       })
     }
 

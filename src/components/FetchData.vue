@@ -1,35 +1,51 @@
 <template>
-  <div class="container">
+    <div class="container">
+        <div class="shadow-lg p-3 mb-3 bg-white rounded" v-if="showpopup">
+          We got your recent consent data. Its time to know your wealth health &nbsp;
+          <i class="fas fa-times" style="color: red;" @click="showpopup=!showpopup"></i>
+        </div>
     <form @submit.prevent="getFiData">
-      <div class="form-group form-card hadow-lg p-3 mb-5 bg-white rounded d-flex">
-          <div class="card-body">
-              <h5 class="card-title">Request recent consent provided data</h5>
-                <div class="form-group mb-3">
-                    <label class="label" for="name">Start Date</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      placeholder="from date"
-                      v-model="fromDate"
-                      required
-                    />
-                </div>
-                <div class="form-group mb-3">
-                    <label class="label" for="name">End Date</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      placeholder="End date"
-                      v-model="toDate"
-                      required
-                    />
-                </div>
-                 <button type="Sumbit" name="next" class="btn btn-primary action-button">
-                    Submit &nbsp;<i class="fas fa-paper-plane"></i>
-                </button>
+      <div
+        class="form-group form-card shadow-lg p-3 mb-5 bg-white rounded d-flex"
+      >
+        <div class="card-body">
+          <h5 class="card-title">
+            Single click away to give life to your data
+            <i class="far fa-hand-point-down"></i>
+          </h5>
+          <div class="form-group mb-3">
+            <label class="label" for="name">Start Date</label>
+            <input
+              type="date"
+              class="form-control"
+              placeholder="from date"
+              v-model="fromDate"
+              required
+            />
           </div>
+          <div class="form-group mb-3">
+            <label class="label" for="name">End Date</label>
+            <input
+              type="date"
+              class="form-control"
+              placeholder="End date"
+              v-model="toDate"
+              required
+            />
+          </div>
+          <button
+            type="Sumbit"
+            name="next"
+            class="btn btn-primary action-button"
+          >
+            Submit &nbsp;<i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
       </div>
     </form>
+    <div>
+      {{fiData}}
+    </div>
   </div>
 </template>
 
@@ -45,10 +61,11 @@ export default {
     const store = useStore();
     const userData = computed(() => store.state.userData);
     const consentRespData = computed(() => store.getters.getConsentResponse);
-    const fiData = computed(() => store.getters.fiData);
+    const fiData = ref(null);
     const consentId = ref("");
     const fromDate = ref("");
     const toDate = ref("");
+    const showpopup =ref(true);
     onBeforeMount(() => {
       if (userData == null) {
         firebase.auth().onAuthStateChanged((user) => {
@@ -63,10 +80,10 @@ export default {
       }
     });
     consentId.value = consentRespData.value["url"].split("/")[3].split("?")[0];
-    console.log(consentId.value)
+    console.log(consentId.value);
 
     const getDateFormat = (fiDate) => {
-      console.log(fiDate);  
+      console.log(fiDate);
       var date = new Date(fiDate);
       var strDate =
         [date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-") +
@@ -80,14 +97,16 @@ export default {
         toDate: getDateFormat(toDate.value),
       };
       console.log(requestData);
-      store.dispatch("getFiData", requestData);
-      console.log(fiData);
+      const response = store.dispatch("getFiData", requestData);
+      fiData.value = response.data;
     };
+
     return {
       getFiData,
       fromDate,
       toDate,
       fiData,
+      showpopup
     };
   },
 };
