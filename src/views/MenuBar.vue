@@ -59,6 +59,7 @@ export default {
      .signOut()
      .then( () => {
           router.replace('/');
+          localStorage.removeItem('infor_email');
      })
      .catch(err => alert(err.message))
    }

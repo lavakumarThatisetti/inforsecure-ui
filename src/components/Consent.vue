@@ -238,13 +238,12 @@ import { useRouter } from 'vue-router';
 import { firebase } from "../firebase/firebaseInit.js";
 import { onBeforeMount, onMounted } from "@vue/runtime-core";
 import {FI_TYPE, CONSENT_TYPE} from "../enums/aa_enums.js"
-// import router from './router'
 import $ from 'jquery';
 export default {
   name: "Consent",
   setup() {
     const store = useStore();
-    const router = useRouter();
+   const router = useRouter();
     const userData = computed(() => store.state.userData);
     const phoneNo = ref(userData.value.phoneNo);
     const fiDateRangeFrom = ref(null);
@@ -384,9 +383,7 @@ export default {
          delete coMap[value];
     }
     const getDateFormat = (fiDate) =>{
-      var date = new Date(fiDate);
-      // "2021-01-11T11:39:57.153Z"
-      var strDate = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-')+"T00:00:00.000Z";
+      var strDate = fiDate+"T00:00:00.000Z";
       return strDate;
     }
     const sendConsent = () => {
@@ -428,6 +425,7 @@ export default {
             }
         ]
       };
+      console.log(consentReqData);
       store.dispatch("saveConsent", consentReqData).then(
         response =>{
           console.log("response from consent", response)

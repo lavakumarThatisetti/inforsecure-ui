@@ -43,9 +43,9 @@
         </div>
       </div>
     </form>
-    <div>
-      {{fiData}}
-    </div>
+    <!-- <div v-if="showFiData"> -->
+      <DataRepresenation/>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -55,8 +55,12 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { firebase } from "../firebase/firebaseInit.js";
 import { onBeforeMount } from "@vue/runtime-core";
+import DataRepresenation from '../components/DataRepresenation.vue';
 export default {
   name: "FetchData",
+  components:{
+       DataRepresenation
+  },
   setup() {
     const store = useStore();
     const userData = computed(() => store.state.userData);
@@ -66,6 +70,7 @@ export default {
     const fromDate = ref("");
     const toDate = ref("");
     const showpopup =ref(true);
+    const showFiData = ref(false);
     onBeforeMount(() => {
       if (userData == null) {
         firebase.auth().onAuthStateChanged((user) => {
@@ -82,11 +87,7 @@ export default {
 
     const getDateFormat = (fiDate) => {
       console.log(fiDate);
-      var date = new Date(fiDate);
-      var strDate =
-        [date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-") +
-        "T00:00:00.000Z";
-      return strDate;
+      return fiDate+"T00:00:00.000Z";
     };
     const getConsntId = (url) =>{
       consentId.value = url
@@ -105,8 +106,10 @@ export default {
         toDate: getDateFormat(toDate.value),
       };
       console.log(requestData);
-      const response = store.dispatch("getFiData", requestData);
-      fiData.value = response.data;
+      store.dispatch("getFiData", requestData).then((response)=>{
+        showFiData.value = !showFiData.value;
+        fiData.value = response.data
+      });
     };
 
     return {
@@ -114,7 +117,8 @@ export default {
       fromDate,
       toDate,
       fiData,
-      showpopup
+      showpopup,
+      showFiData
     };
   },
 };

@@ -51,15 +51,16 @@ export default createStore({
       .then( (response) => {
         console.log(response.data);
         commit('ADD_USER', response.data);
-        return response.status;
+        return response;
       });
     },
     async updateUser({ commit }, { userId, user}) {
       console.log(JSON.stringify(user));
-      const response = await User.updateUser(userId, user);
-      console.log(response.data);
-      commit('UPDATE_USER', response.data);
-      return response.status
+      return User.updateUser(userId, user).then((response)=>{
+        console.log(response.data);
+        commit('UPDATE_USER', response.data);
+        return response;
+      });
     },
     async getUser({ commit }, userId) {
       const response = await User.getUser(userId);

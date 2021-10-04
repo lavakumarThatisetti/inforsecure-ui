@@ -17,7 +17,7 @@
               </div>
             </div>
             <div class="col-*">
-              <form @submit.prevent="updateProfile" class="signin-form">
+              <form @submit.prevent="updateProfile()" class="signin-form">
               <div class="card mb-3  shadow-lg p-3 mb-5 bg-white rounded">
                 <div class="card-body">
                   <h5 class="card-title">Profile Info <i class="fas fa-info-circle"></i></h5>
@@ -106,7 +106,7 @@
                       <button type="button" class="btn-outline-primary btn-lg btn-block" @click="editProfile = !editProfile"><i class="fas fa-user-edit"></i> Edit Profile</button>
                     </div>
                      <div class="col-sm-12 btn-group" v-if="editProfile">
-                      <button type="submit" class="btn btn-lg resetBtn" @click="editProfile = !editProfile">
+                      <button type="submit" class="btn btn-lg resetBtn">
                         Save Profile
                       </button>
                       <button type="button" class="btn btn-secondary btn-lg" @click="editProfile = !editProfile">
@@ -138,6 +138,7 @@ export default {
     const firstName = ref(userData.value.firstName);
     const lastName = ref(userData.value.lastName);
     const phoneNo = ref(userData.value.phoneNo);
+    const wealthScore = ref(userData.value.wealthScore);
     const editProfile = ref(false);
     onBeforeMount(() => {
       if (userData == null) {
@@ -153,6 +154,8 @@ export default {
       }
     });
     const updateProfile = () => {
+      editProfile.value = !editProfile.value
+      console.log("Data to update ",data)
       const data = {
         userId: userData.value.id,
         user: {
@@ -161,13 +164,15 @@ export default {
           lastName: lastName.value,
           phoneNo: phoneNo.value,
           email: userData.value.email,
+          wealthScore: wealthScore.value
         },
       };
-      const status = store.dispatch("updateUser", data);
-      if (status === 200) {
-        console.log("Profile Sucessfuly updated");
-      } else {
-        console.log("Profile failed to update");
+      const response = store.dispatch("updateUser", data);
+      console.log("Data after update ",response)
+      if (response.data !=null){
+        wealthScore.value = response.data['wealthScore']
+      }else{
+        console.log("User updated failed")
       }
     };
     return {
@@ -175,6 +180,7 @@ export default {
       firstName,
       lastName,
       phoneNo,
+      wealthScore,
       email: userData.value.email,
       updateProfile,
       editProfile
