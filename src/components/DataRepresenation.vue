@@ -1,16 +1,22 @@
 <template>
   <div v-if="isApnaBank">
-    <h1>Apna Banks</h1>
-    {{ depoistsChartData }}
-    <apexchart
-      type="line"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
+    <h1><u>Apna Bank</u></h1>
+       <DepositViz v-if="depositsData!=null" :depositsData="depositsData"/>
+       <CrediCardViz v-if="creditsData!=null" :data="creditsData"/>
   </div>
-  <div v-if="isApnaPension"></div>
-  <div v-if="isApnaInsurance"></div>
-  <div v-if="isApnaInvestments"></div>
+  <div v-if="isApnaPension">
+       <h1><u>Apna Pension</u></h1>
+       <EpfViz v-if="epfData!=null" :data="epfData"/>
+       <PpfViz v-if="ppfData!=null" :data="ppfData"/>
+  </div>
+  <div v-if="isApnaInsurance">
+      <h1><u>Apna Insurance</u></h1>
+  </div>
+  <div v-if="isApnaInvestments">
+      <h1><u>Apna Investments</u></h1>
+      <MutualFundsViz v-if="mfData!=null" :data="mfData"/>
+      <BondsViz v-if="bondsData!=null" :data="bondsData"/> 
+  </div>
 </template>
 
 <script>
@@ -18,11 +24,23 @@ import { onMounted, ref } from "vue";
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { getFiP } from "../utils/getFip.js";
-import moment from "moment";
+import DepositViz from "../components/charts/DepositViz.vue"
+import CrediCardViz from "../components/charts/CrediCardViz.vue"
+import MutualFundsViz from "../components/charts/MutualFundsViz.vue"
+import BondsViz from "../components/charts/BondsViz.vue"
+import EpfViz from "./charts/EpfViz.vue"
+import PpfViz from "./charts/PpfViz.vue"
 
 export default {
   name: "DataRepresenation",
-  components: {},
+  components: {
+    DepositViz,
+    CrediCardViz,
+    MutualFundsViz,
+    BondsViz,
+    EpfViz,
+    PpfViz,
+  },
   setup() {
     const store = useStore();
     const fiData = computed(() => store.state.fiData);
@@ -30,9 +48,12 @@ export default {
     const isApnaPension = ref(false);
     const isApnaInsurance = ref(false);
     const isApnaInvestments = ref(false);
-    const depoistsChartData = ref([]);
-    const dates = ref([]);
-    const amount = ref([]);
+    const depositsData = ref(null);
+    const creditsData = ref(null);
+    const epfData = ref(null);
+    const ppfData = ref(null);
+    const bondsData = ref(null);
+    const mfData = ref(null);
     console.log("Fidata", fiData.value);
     onMounted(() => {
       if (fiData.value != null) {
@@ -41,25 +62,26 @@ export default {
           if (fip === "Apna Bank") {
             isApnaBank.value = true;
             if (data["type"] == "DEPOSIT") {
-              data["records"].forEach((record) => {
-                const date = moment(record["transactionTimestamp"].split("T")[0],"YYYY-MM-DD").format("DD/MM/YYYY");
-                const currentBalance = record["currentBalance"];
-                dates.value.push(date);
-                amount.value.push(currentBalance);
-
-                // const mode = record['mode'];
-                // const type = record['type'];
-                // const narration = record['narration'];
-                depoistsChartData.value.push({date,currentBalance});
-              });
-              console.log(depoistsChartData.value);
+                    depositsData.value = data
+            }else if (data["type"] == "CREDIT_CARD") {
+                    creditsData.value = data
             }
           } else if (fip === "Apna Insurance") {
             isApnaInsurance.value = true;
           } else if (fip === "Apna Pension") {
             isApnaPension.value = true;
+            if(data["type"] == "EPF"){
+                    epfData.value = data
+            }else if(data["type"] == "PPF"){
+                    ppfData.value = data
+            }
           } else if (fip === "Apna Investments") {
             isApnaInvestments.value = true;
+            if(data["type"] == "BONDS"){
+              bondsData.value = data
+            }else if(data["type"] == "MUTUAL_FUNDS"){
+              mfData.value = data
+            }
           }
         });
       }
@@ -71,28 +93,12 @@ export default {
       isApnaPension,
       isApnaInsurance,
       isApnaInvestments,
-      depoistsChartData,
-     
-      depositsChartColor: {
-        borderColor: "#077187",
-        pointBorderColor: "#0E1428",
-        pointBackgroundColor: "#AFD6AC",
-        backgroundColor: "#74A57F",
-      },
-       chartOptions: {
-        chart: {
-          id: "Balanced Deposits",
-        },
-        xaxis: {
-          categories: dates.value,
-        },
-      },
-      series: [
-        {
-          name: "Balance",
-          data: amount.value,
-        },
-      ],
+      depositsData,
+      creditsData,
+      epfData,
+      ppfData,
+      bondsData,
+      mfData
     };
   },
 };
