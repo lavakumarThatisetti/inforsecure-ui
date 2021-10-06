@@ -6,7 +6,16 @@
               <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                 <div class="card-body" id="boxshadow" >
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="../assets/images/account.png" alt="Admin" class="rounded-circle" width="150">
+                       <h5>Wealth Score</h5>
+                       <radial-progress-bar :diameter="200"
+                                            :completed-steps="wealthScore"
+                                            :total-steps="1000"
+                                            :strokeWidth="20"
+                                            :innerStrokeWidth="20"
+                                             startColor="#00FF00"
+                                             stopColor="#1E90FF">
+                        <p><b>{{wealthScore}} points</b></p>
+                        </radial-progress-bar>
                     <div class="mt-3">
                       <h4>{{userName}}</h4>
                       <p class="text-secondary mb-1"><i class="fas fa-envelope"></i> {{email}}</p>
@@ -129,8 +138,12 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { firebase } from "../firebase/firebaseInit.js";
 import { onBeforeMount } from "@vue/runtime-core";
+import RadialProgressBar from 'vue-radial-progress'
 export default {
   name: "Profile",
+  components:{
+      RadialProgressBar
+  },
   setup() {
     const store = useStore();
     const userData = computed(() => store.state.userData);
@@ -167,13 +180,9 @@ export default {
           wealthScore: wealthScore.value
         },
       };
-      const response = store.dispatch("updateUser", data);
-      console.log("Data after update ",response)
-      if (response.data !=null){
+      store.dispatch("updateUser", data).then(response =>{
         wealthScore.value = response.data['wealthScore']
-      }else{
-        console.log("User updated failed")
-      }
+      });
     };
     return {
       userName,
@@ -201,5 +210,130 @@ export default {
 }
 .card {
   width: 100%;
+}
+.progress {
+    width: 150px;
+    height: 150px !important;
+    float: left;
+    line-height: 150px;
+    background: none;
+    margin: 20px;
+    box-shadow: none;
+    position: relative
+}
+
+.progress:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 12px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0
+}
+
+.progress>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1
+}
+
+.progress .progress-left {
+    left: 0
+}
+
+.progress .progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 12px;
+    border-style: solid;
+    position: absolute;
+    top: 0
+}
+
+.progress .progress-left .progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left
+}
+
+.progress .progress-right {
+    right: 0
+}
+
+.progress .progress-right .progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+    animation: loading-1 1.8s linear forwards
+}
+
+.progress .progress-value {
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: #000;
+    font-size: 24px;
+    color: #fff;
+    line-height: 135px;
+    text-align: center;
+    position: absolute;
+    top: 5%;
+    left: 5%
+}
+
+.progress.blue .progress-bar {
+    border-color: #049dff
+}
+
+.progress.blue .progress-left .progress-bar {
+    animation: loading-2 1.5s linear forwards 1.8s
+}
+
+@keyframes loading-1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg)
+    }
+}
+
+@keyframes loading-2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(144deg);
+        transform: rotate(144deg)
+    }
+}
+
+@keyframes loading-3 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg)
+    }
 }
 </style>

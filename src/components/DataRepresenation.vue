@@ -27,7 +27,7 @@
 <script>
 import { onMounted, ref } from "vue";
 import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 import { getFiP } from "../utils/getFip.js";
 import DepositViz from "../components/charts/DepositViz.vue"
 import CrediCardViz from "../components/charts/CrediCardViz.vue"
@@ -54,9 +54,15 @@ export default {
     SipVz,
     InsuranceViz
   },
-  setup() {
-    const store = useStore();
-    const fiData = computed(() => store.state.fiData);
+  props: {
+    data: {
+      type: Object,
+    },
+  },
+  setup(props) {
+    // const store = useStore();
+    console.log(props.data)
+    const fiData = computed(() => props.data);
     const isApnaBank = ref(false);
     const isApnaPension = ref(false);
     const isApnaInsurance = ref(false);

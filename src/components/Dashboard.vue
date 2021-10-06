@@ -1,8 +1,8 @@
 <template>
   <SideNavBar/>
-  <div class="home">
+  <!-- <div class="home">
     <h4>Welcome User {{name}}</h4>
-  </div>
+  </div> -->
   <router-view/>
 </template>
 

@@ -9,7 +9,8 @@ const getDefaultState = () => {
     consentData:{},
     consentResp:{},
     fiData: [],
-    allFiData :[]
+    allFiData :[],
+    top10Users: [],
   }
 }
 
@@ -46,6 +47,8 @@ export default createStore({
         // FI DATA
         SET_FIDATA: (state,payload) => state.fiData= payload,
         SET_ALL_FIDATA: (state,payload) => state.allFiData.push(payload),
+
+        TOP_10_USERS: (state,payload) => state.top10Users= payload,
 
         RESET_STATE (state) {
           Object.assign(state, getDefaultState())
@@ -101,6 +104,14 @@ export default createStore({
         console.log(response.data);
         commit('SET_FIDATA', response.data);
         commit('SET_ALL_FIDATA', response.data);
+        return response;
+      })
+    },
+
+    async getTop10Users({commit}){
+      return User.getTop10Users()
+      .then((response)=>{
+        commit('TOP_10_USERS',response.data)
         return response;
       })
     },

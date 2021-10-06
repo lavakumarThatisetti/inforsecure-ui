@@ -44,7 +44,7 @@
       </div>
     </form>
     <div v-if="showFiData">
-      <DataRepresenation/>
+      <DataRepresenation :data="fiData"/>
     </div>
   </div>
 </template>

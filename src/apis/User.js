@@ -36,5 +36,13 @@ export default {
                     }
                }
         );
+    },
+    getTop10Users(){
+        return Api.get('user/getTop10Users',
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
     }
 }
