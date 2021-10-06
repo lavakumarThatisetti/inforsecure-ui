@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1> All Your Trnsactions Can be seen Here </h1>
+        <h1> All Your Transactions Can be seen Here </h1>
         <div v-for="(data, index) in top10Consents" :key="data">
             <h1> Transaction {{index+1}}</h1>
             <DataRepresenation :data="data"/>
