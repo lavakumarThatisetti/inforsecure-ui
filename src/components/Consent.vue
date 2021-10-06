@@ -105,30 +105,30 @@
                         <!-- APNA Bank //-->
                         <option value="DEPOSIT">Deposit</option>
                         <option value="TERM_DEPOSIT">Term Deposit</option>
-                        <option value="RECURRING_DEPOSIT">Recurring Deposit</option>
+                        <!-- <option value="RECURRING_DEPOSIT">Recurring Deposit</option> -->
                         <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="CD">Certificates of Deposit</option>
-                        <option value="IDR">Indian Depository Receipt</option>
+                        <!-- <option value="CD">Certificates of Deposit</option>
+                        <option value="IDR">Indian Depository Receipt</option> -->
                         <!-- APNA Insurance //-->
                         <option value="INSURANCE_POLICIES">Insurnce Policies</option>
-                        <option value="ULIP">Unit Linked Insurance Plan</option>
+                        <!-- <option value="ULIP">Unit Linked Insurance Plan</option> -->
                         <!-- APNA Pension //-->
                         <option value="EPF">Employees Provident Fund</option>
                         <option value="PPF">Public Provident Fund</option>
                         <!-- APNA Investments //-->
                         <option value="MUTUAL_FUNDS">Mutual funds</option>
                         <option value="BONDS">Bonds</option>
-                        <option value="DEBENTURES">Debentures</option>
+                        <!-- <option value="DEBENTURES">Debentures</option>
                         <option value="ETF">Exchange Traded Fund</option>
                         <option value="NPS">National Pension Scheme</option>
                         <option value="GOVT_SECURITIES">Government Securities</option>
                         <option value="CP">Commercial Paper</option>
                         <option value="REIT">Real Estate Investment Trust</option>
                         <option value="INVIT">Infrastructure Investment Trust</option>
-                        <option value="AIF">Alternative Investment Fund</option>
+                        <option value="AIF">Alternative Investment Fund</option> -->
                         <option value="SIP">Systematic Investment Plan</option>
                         <option value="EQUITIES">Equity Shares</option>
-                        <option value="CIS">Collective Investment Schemes</option>
+                        <!-- <option value="CIS">Collective Investment Schemes</option> -->
                     </datalist>
                      <div v-for="filType in fiTypes" :key="filType">
                         <div class="filtype shadow-lg p-2 mb-1 rounded">{{filType}} &nbsp;<i class="fas fa-times" @click="deleteFiType(filType)"></i></div>
@@ -179,8 +179,12 @@
                     <label class="fieldlabels" for="fetchType">Filter Data <i class="fas fa-info-circle red-tooltip" data-toggle="tooltip" data-placement="top" title="Allows you to specify conditions for filtering the data being fetched. For example, fetch transactions where the TRANSACTIONAMOUNT is greater than or equal to INR 20,000"></i></label>
                     <div class="row">
                         <select v-model="filterData" class="select mb-3 col-md-6"  id="fetchType">
-                            <option selected value=">=">Greater</option>
-                            <option value="<=">Lesser</option>
+                            <option selected value=">=">Greater Than equal</option>
+                            <option value="<=">Lesser Than Equal</option>
+                            <option value=">">Greater</option>
+                            <option value="<">Lesser</option>
+                            <option value="=">Equal</option>
+                            <option value="!=">Not Equal</option>
                         </select>
                         <input type="number" class="form-control col-md-6" style="border-radius:5px;" name="filterAmount" v-model="filterAmount" placeholder="Amount" />
                     </div>

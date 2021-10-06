@@ -60,42 +60,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="row">
-      <div class="col-sm p-3 mb-2 bg-dark text-white">
-        <div style="color: white">Top 3 Peak hour count credit deposits</div>
-        <table class="table table-dark">
-          <tr>
-            <th>Hour</th>
-            <th v-for="credit in hourCount['credit']" :key="credit">
-              {{ credit }}
-            </th>
-          </tr>
-          <tr>
-            <th>Count</th>
-            <th v-for="credit in hourCount['credit']" :key="credit">
-              {{ insights["peekHourCount"]["credit"][credit] }}
-            </th>
-          </tr>
-        </table>
-      </div>
-      <div class="col-sm p-3 mb-2 bg-dark text-white">
-        <div style="color: white">Top 3 Peak hour count debit deposits</div>
-        <table class="table table-dark">
-          <tr>
-            <th>Hour</th>
-            <th v-for="debit in hourCount['debit']" :key="debit">
-              {{ debit }}
-            </th>
-          </tr>
-          <tr>
-            <th>Count</th>
-            <th v-for="debit in hourCount['debit']" :key="debit">
-              {{ insights["peekHourCount"]["debit"][debit] }}
-            </th>
-          </tr>
-        </table>
-      </div>
-    </div> -->
     <div
       class="row shadow-lg p-3 mb-1 bg-dark rounded text-center"
       style="color: white"
@@ -270,7 +234,7 @@ export default {
       "previousDueAmount",
       "minDueAmount",
     ];
-    console.log("epfData", epfData.value);
+    console.log("creditData", epfData.value);
     // Transactions
     epfData.value["records"].forEach((record) => {
       const date = moment(record["txnDate"].split("T")[0], "YYYY-MM-DD").format(
@@ -301,7 +265,7 @@ export default {
     if((summary.value['financeCharges']/1)<1000){
          cs = cs +100;
     }
-    if((summary.value['loyalityPoints']/1)>1000){
+    if((summary.value['loyaltyPoints']/1)>1000){
          cs = cs +100;
     }
     creditScore.value = (creditScore.value + cs)/10;

@@ -3,16 +3,20 @@ import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
 import Consent from '../apis/Consent';
 
-export default createStore({
-
-  
-  state: {
+const getDefaultState = () => {
+  return {
     userData: {},
     consentData:{},
     consentResp:{},
     fiData: [],
     allFiData :[]
-  },
+  }
+}
+
+export default createStore({
+
+  
+  state: getDefaultState(),
   plugins: [createPersistedState()],
   getters:{
       getUser(state){
@@ -41,7 +45,11 @@ export default createStore({
         ADD_CONSENT_RESP: (state,payload) => state.consentResp = payload,
         // FI DATA
         SET_FIDATA: (state,payload) => state.fiData= payload,
-        SET_ALL_FIDATA: (state,payload) => state.allFiData.push(payload)
+        SET_ALL_FIDATA: (state,payload) => state.allFiData.push(payload),
+
+        RESET_STATE (state) {
+          Object.assign(state, getDefaultState())
+        }
   },
   actions: {
     // USER DATA ACTIVITY
@@ -95,7 +103,13 @@ export default createStore({
         commit('SET_ALL_FIDATA', response.data);
         return response;
       })
-    }
+    },
+
+    resetCartState ({ commit }) {
+      commit('RESET_STATE')
+    },
+
+
 
   },
   modules: {

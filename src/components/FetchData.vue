@@ -43,9 +43,9 @@
         </div>
       </div>
     </form>
-    <!-- <div v-if="showFiData"> -->
+    <div v-if="showFiData">
       <DataRepresenation/>
-    <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -107,8 +107,8 @@ export default {
       };
       console.log(requestData);
       store.dispatch("getFiData", requestData).then((response)=>{
-        showFiData.value = !showFiData.value;
         fiData.value = response.data
+        showFiData.value = !showFiData.value;
       });
     };
 

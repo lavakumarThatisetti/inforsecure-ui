@@ -36,12 +36,14 @@
 import {ref, onBeforeMount} from 'vue';
 import {firebase} from "@/firebase/firebaseInit.js"
 import {useRouter} from 'vue-router';
+import { useStore } from "vuex";
 export default {
     name: 'MenuBar',
     props:{
         msg: String
     },
     setup(){
+    const store = useStore();
     const router = useRouter();
     const checkUser = ref(false)
     onBeforeMount(()=>{
@@ -58,8 +60,10 @@ export default {
      .auth()
      .signOut()
      .then( () => {
+          store.dispatch("RESET_STATE")
           router.replace('/');
           localStorage.removeItem('infor_email');
+
      })
      .catch(err => alert(err.message))
    }

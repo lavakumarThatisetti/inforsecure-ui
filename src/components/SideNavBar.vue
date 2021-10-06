@@ -41,7 +41,7 @@
                          @click="active = 'stats'"
                          :class="{active:active === 'stats'}" 
                          class="nav_link" to="/stats"> 
-                        <i class='fa fa-chart-line nav_icon'></i>
+                        <i class='fa fa-trophy nav_icon'></i>
                         <span class="nav_name">Stats</span> 
                     </router-link> 
                     <router-link 

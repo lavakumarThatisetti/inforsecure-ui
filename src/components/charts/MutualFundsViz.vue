@@ -19,21 +19,17 @@
             v-for="source in insights['sourceOfInvestment']"
             :key="source"
           >
-            Investment Source - {{ source }}
+            Investment Source: {{ source }}
           </div>
           <div
             class="col-sm p-3 mb-2 sources"
             v-for="source in insights['typesOfInvestment']"
             :key="source"
           >
-            Investment Types - {{ source }}
+            Investment Types: {{ source }}
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm p-3 mb-2 sources">
-            Profit - <b>{{ insights["profit"] }}%</b>
-          </div>
-        </div>
+         Profit <b>{{ insights["profit"] }}%</b>
       </div>
     </div>
     <div class="row">
@@ -161,19 +157,6 @@ export default {
       bAmounts.value.push(BuyAmmount);
       totalProfits.value.push(profitLoss);
     });
-    //  const shuffleArray  = (array)  => {
-    //         for (var i = array.length - 1; i > 0; i--) {
-    //             var j = Math.floor(Math.random() * (i + 1));
-    //             var temp = array[i];
-    //             array[i] = array[j];
-    //             array[j] = temp;
-    //         }
-    //         return array;
-    //     }
-    // cAmounts.value = shuffleArray(cAmounts.value);
-    // bAmounts.value = shuffleArray(bAmounts.value);
-    // totalProfits.value = shuffleArray(totalProfits.value);
-
     // Insights
     datastory.value = mfData.value["dataStory"];
     insights.value = mfData.value["insights"];

@@ -22,7 +22,7 @@
         </div>
         <div class="row">
                    <div class="col-sm p-3 mb-2 sources">
-            Profit - <b>{{ insights["profit"] }}%</b>
+            Profit <b>{{ insights["profit"] }}%</b>
         </div>
         </div>
       </div>
