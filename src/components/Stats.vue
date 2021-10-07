@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-        <table class="table table-borderless">
-            <thead class="thead-dark">
+        <table class="table table-borderless shadow-lg p-3 mb-3">
+            <thead class="thead-dark shadow-lg p-3 mb-3">
                 <th>UserName</th><th @click="sort" id="sort"> Wealth Score</th>
             </thead>
-            <tbody v-if="top10Users!=null" style="background-color:white;">
+            <tbody v-if="top10Users!=null" style="background-color:white;" class="shadow-lg p-3 mb-3">
                 <tr v-for="user in top10Users" :key="user">
-                    <td><h4>{{user['userName']}}</h4></td>
+                    <td><h5>{{user['userName']}}</h5></td>
                     <td align="center">
                          <radial-progress-bar :diameter="100"
                                             :completed-steps="user['wealthScore']"

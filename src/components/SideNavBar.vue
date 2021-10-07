@@ -13,7 +13,7 @@
                         @click="active = 'personlization'"
                         :class="{active:active === 'personlization'}"
                         class="nav_link" to="/personlization"> 
-                        <i class='fa fa-medal nav_icon'></i>
+                        <i class='fab fa-intercom nav_icon'></i>
                         <span class="nav_name">Personlization</span>
                     </router-link> 
                     <router-link 

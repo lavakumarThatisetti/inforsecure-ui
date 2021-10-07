@@ -9,6 +9,14 @@ export default {
             }
         })
     },
+    getAllConsentsOfUser(userId){
+        return Api.get(`fiu/getConsents/${userId}`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+    },
     postConsent(consentData){
         return Api.post('fiu/createConsent',
                 JSON.stringify(consentData),

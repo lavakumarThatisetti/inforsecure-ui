@@ -3,6 +3,7 @@
   <!-- <div class="home">
     <h4>Welcome User {{name}}</h4>
   </div> -->
+  <Personlization/>
   <router-view/>
 </template>
 
@@ -10,10 +11,12 @@
 import {ref, onBeforeMount} from 'vue';
 import {firebase} from "../firebase/firebaseInit.js"
 import SideNavBar from "@/components/SideNavBar.vue";
+import Personlization from "@/components/Personlization.vue";
 export default {
   name: 'Dashboard',
   components:{
       SideNavBar,
+      Personlization
   },
   setup(){
    const name = ref("")

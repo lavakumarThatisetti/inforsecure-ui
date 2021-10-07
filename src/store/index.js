@@ -11,6 +11,7 @@ const getDefaultState = () => {
     fiData: [],
     allFiData :[],
     top10Users: [],
+    allConsents:[]
   }
 }
 
@@ -44,6 +45,7 @@ export default createStore({
         // CONSENT DATA
         ADD_CONSENT: (state,payload) => state.consentData = payload,
         ADD_CONSENT_RESP: (state,payload) => state.consentResp = payload,
+        SET_ALL_CONSENT_DATA: (state,payload) => state.allConsents = payload,
         // FI DATA
         SET_FIDATA: (state,payload) => state.fiData= payload,
         SET_ALL_FIDATA: (state,payload) => state.allFiData.push(payload),
@@ -93,8 +95,18 @@ export default createStore({
             .then( (response) => {
               console.log(response.data);
               commit('ADD_CONSENT_RESP', response.data);
+              commit('SET_ALL_CONSENT_DATA', consent);
               return response;
             });
+   },
+
+   async getAllConsents({commit},userId){
+      return Consent.getAllConsentsOfUser(userId)
+              .then((response) =>{
+                console.log(response.data);
+                commit('SET_ALL_CONSENT_DATA',response.data)
+                return response
+              })
    },
 
     // FETCH FI DATA
