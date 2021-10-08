@@ -67,7 +67,7 @@
                <hr/>
                <div class="page-header">
                     <div class="float-left">
-                        <h6 id="text">Invested Amount <b>{{summary["investementValue"]}}</b></h6>
+                        <h6 id="text">Invested Amount <b>{{summary["investmentValue"]}}</b></h6>
                     </div>
                     <div class="float-right">
                         <h6 id="text" class="text-right">Balanced Units <b>{{balancedUnits}}</b></h6>
