@@ -128,7 +128,7 @@ export default createStore({
       })
     },
 
-    resetCartState ({ commit }) {
+    resetState ({ commit }) {
       commit('RESET_STATE')
     },
 

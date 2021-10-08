@@ -60,7 +60,7 @@ export default {
      .auth()
      .signOut()
      .then( () => {
-          store.dispatch("RESET_STATE")
+          store.dispatch("resetState")
           router.replace('/');
           localStorage.removeItem('infor_email');
 
