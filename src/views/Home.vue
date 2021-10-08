@@ -1,38 +1,51 @@
 <template>
   <div class="container-fluid">
-    <h2 class="tagline">"Empowering Indians with their Data for a Better Financial Future"</h2>
+    <h2 class="tagline">
+      "Empowering Indians with their Data for a Better Financial Future"
+    </h2>
     <h2 class="text-left"><b>Our Main Goal</b></h2>
-    <h5 class="text-left">
-     Our primary goal is to make everyone rich. Most of the people dont have any idea how cashflow 
-     works and how to double the income and how to invest and what are the best firms to invest early
-     for long term goals and become wealth person.
+    <h5 class="text-left p-3 mb-2 bg-dark shadow-lg text-white rounded">
+      Our primary goal is to make everyone rich. Most of the people dont have
+      any idea how cashflow works and how to double the income and how to invest
+      and what are the best firms to invest early for long term goals and become
+      wealth person.
     </h5>
-    <h5 class="text-left">
-     Also, Most of the People will invest on firms without having idea. Just investing by seeing some
-     Ads and from seeing people around. Without right Strategy will make u poor by losing money 
-     instead of rich.
+    <h5 class="text-left p-3 mb-2 bg-dark shadow-lg text-white rounded">
+      Also, Most of the People will invest on firms without having idea. Just
+      investing by seeing some Ads and from seeing people around. Without right
+      Strategy will make u poor by losing money instead of rich.
     </h5>
-    <h5 class="text-left">
-      So, to overcome all the hurdles of what common man is facing financialky we happy to 
-      say we are their to help you.  
+    <h5 class="text-left p-3 mb-2 bg-dark shadow-lg text-white rounded">
+      So, to overcome all the hurdles of what common man is facing financialky
+      we happy to say we are their to help you.
     </h5>
-    <br/>
-    <h5 class="text-left">
-      <b>If you are looking to manage your wealth without Hussle and Manage you wealth
-        by closly monitoring your financial data and to recommend where best ways and best suitable firms
-        to invest to become wealth person and beat the Inflation.
+    <br />
+    <h5 class="text-left p-3 mb-2 bg-dark shadow-lg text-white rounded">
+      <b
+        >If you are looking to manage your wealth without Hussle and Manage you
+        wealth by closly monitoring your financial data and to recommend where
+        best ways and best suitable firms to invest to become wealth person and
+        beat the Inflation.
       </b>
     </h5>
-    <br/>
+    <br />
     <h4 class="text-left">
-      <b>A single click away to manage your finance data. To know more about How we are doing
-        checkout our <router-link  to="/about"> 
-                        <span class="nav_name">About Page</span>
-                    </router-link> 
+      <b
+        >A single click away to manage your finance data. To know more about How
+        we are doing checkout our
+        <router-link to="/about">
+          <span class="nav_name">About Page</span>
+        </router-link>
       </b>
     </h4>
-    <br/>
-    <h2 class="text-left" ><b>Services which we offered</b></h2>
+    <br />
+    <h2 class="text-left">
+      <b>Products and Services we offered More info
+      <router-link to="/products">
+        <span class="nav_name">Click Here</span>
+      </router-link>
+      </b>
+    </h2>
     <div class="row">
       <div class="col-md-3">
         <div class="wrimagecard wrimagecard-topimage">
@@ -46,9 +59,7 @@
               </center>
             </div>
             <div class="wrimagecard-topimage_title">
-              <h4>
-                Bank
-              </h4>
+              <h4>Bank</h4>
             </div>
           </a>
         </div>
@@ -61,7 +72,10 @@
               style="background-color: rgba(22, 160, 133, 0.1)"
             >
               <center>
-                <i class="fa fa-hand-holding-medical" style="color: #16a085"></i>
+                <i
+                  class="fa fa-hand-holding-medical"
+                  style="color: #16a085"
+                ></i>
               </center>
             </div>
             <div class="wrimagecard-topimage_title">
@@ -106,7 +120,7 @@
             </div>
             <div class="wrimagecard-topimage_title">
               <h4>
-                 Investments
+                Investments
                 <div class="pull-right badge" id="WrGridSystem"></div>
               </h4>
             </div>
@@ -163,9 +177,9 @@ a.wrimagecard:hover,
   color: #525c65;
   transition: color 0.3s ease;
 }
-.tagline{
-  color:rgb(9, 36, 109);
+.tagline {
+  color: rgb(9, 36, 109);
   font-weight: bold;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 </style>
