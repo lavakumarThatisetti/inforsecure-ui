@@ -1,16 +1,16 @@
 module.exports = {
     devServer: {
         proxy: {
-            '^/user': {
+            '/user': {
                 target: 'https://inforsecure-backend.herokuapp.com/api/',
                 changeOrigin: true,
-                pathRewrite: {'^/user': '/user'},
+                pathRewrite: {'^/user': ''},
                 logLevel: 'debug' 
              },
-             '^/fiu': {
+             '/fiu': {
                 target: 'https://inforsecure-backend.herokuapp.com/api/',
                 changeOrigin: true,
-                pathRewrite: {'^/fiu': '/fiu'},
+                pathRewrite: {'^/fiu': ''},
                 logLevel: 'debug' 
              }
            }
