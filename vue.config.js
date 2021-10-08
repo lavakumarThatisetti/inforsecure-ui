@@ -4,7 +4,7 @@ module.exports = {
             '^/api': {
                 target: 'https://inforsecure-backend.herokuapp.com',
                 changeOrigin: true,
-                pathRewrite: {'^/user': '/user'},
+                pathRewrite: {'^/api': '/api'},
                 logLevel: 'debug' 
              },
              '^/fiu': {
