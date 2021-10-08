@@ -1,5 +1,5 @@
 module.exports = {
     devServer: {
-        proxy: 'http://localhost:9090/api/'
+        proxy: 'https://inforsecure-backend.herokuapp.com/api/'
     }
 }

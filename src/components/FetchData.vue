@@ -109,6 +109,7 @@ export default {
       store.dispatch("getFiData", requestData).then((response)=>{
         fiData.value = response.data
         showFiData.value = !showFiData.value;
+        store.dispatch('getUser',userData.value['id']);
       });
     };
 
