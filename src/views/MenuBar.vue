@@ -19,7 +19,7 @@
         <router-link class="nav-link" to="/products">Products</router-link>
       </li>
       <li class="nav-item" v-if="checkUser">
-        <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
+        <router-link class="nav-link" to="/personlization">Dashboard</router-link>
       </li>
       <li class="nav-item" v-if="!checkUser">
         <router-link class="btn btn-outline-primary" to="/login">Login / Register</router-link>
