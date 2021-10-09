@@ -130,6 +130,7 @@ export default {
             .createUserWithEmailAndPassword(email.value,password.value)
             .then(data => {
               console.log("data",data);
+              console.log(process.env.VUE_APP_ROOT_API)
               store.dispatch('addUser',
                   { 
                     "userName":username.value,
