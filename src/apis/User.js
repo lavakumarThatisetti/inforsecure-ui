@@ -1,3 +1,4 @@
+import axios from "axios";
 import Api from "./Api";
 
 export default {
@@ -18,7 +19,7 @@ export default {
         })
     },
     postUser(userData){
-        return Api.post('user/registerUser',
+        return axios.post(process.env.VUE_APP_ROOT_API+'user/registerUser',
                 JSON.stringify(userData),
                 {
                     headers: {
