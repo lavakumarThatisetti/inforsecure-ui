@@ -131,6 +131,7 @@ export default {
             .then(data => {
               console.log("data",data);
               console.log(process.env.VUE_APP_ROOT_API)
+              localStorage.setItem('infor_email', email.value)
               store.dispatch('addUser',
                   { 
                     "userName":username.value,

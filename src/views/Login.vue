@@ -105,6 +105,7 @@ export default {
         .signInWithEmailAndPassword(email.value, password.value)
         .then((data) => {
           console.log(data);
+          localStorage.setItem('infor_email', email.value)
           invalidC.value = false;
         })
         .catch((err) => {
