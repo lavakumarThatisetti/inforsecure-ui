@@ -87,8 +87,10 @@
 <script>
 import { ref } from "vue";
 import { firebase } from "../firebase/firebaseInit.js";
+import {useStore} from 'vuex';
 export default {
   setup() {
+    const store = useStore(); 
     const email = ref("");
     const password = ref("");
     const passwordFieldType = ref("password");
@@ -106,6 +108,7 @@ export default {
         .then((data) => {
           console.log(data);
           localStorage.setItem('infor_email', email.value)
+          store.dispatch('setUser',email.value);
           invalidC.value = false;
         })
         .catch((err) => {

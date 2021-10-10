@@ -85,7 +85,8 @@ export default createStore({
       const response =  await User.getUserByEmail(email);
       console.log(response.data);
       commit('SET_USER', response.data);
-      return response.status;
+      this.getAllConsents(response.data['id']);
+      return response;
     },
     
     // CONSENT DATA ACTIVITY
